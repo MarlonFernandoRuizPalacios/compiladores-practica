@@ -7,62 +7,56 @@ class EvalVisitor(MiGramaticaVisitor):
         super().__init__()
         self.variables = {}
     
-    # Visitar el programa principal
     def visitPrograma(self, ctx: MiGramaticaParser.ProgramaContext):
         for sentencia in ctx.sentencia():
             self.visit(sentencia)
         return self.variables
     
-    # Visitar una asignación
     def visitAssign(self, ctx: MiGramaticaParser.AssignContext):
         var_name = ctx.ID().getText()
         value = self.visit(ctx.expresion())
         self.variables[var_name] = value
         return value
     
-    # Visitar un ciclo for
     def visitForLoop(self, ctx: MiGramaticaParser.ForLoopContext):
-        # Procesar inicialización
+        # 1. Ejecutar inicialización
         self.visit(ctx.inicializacion())
         
-        # Ejecutar el ciclo mientras la condición sea verdadera
-        while self.visit(ctx.condicion()):
+        # 2. Evaluar condición y ejecutar cuerpo mientras sea verdadera
+        while self._evaluate_condition(ctx.condicion()):
             # Ejecutar cada sentencia en el cuerpo del for
             for sentencia in ctx.sentencia():
                 self.visit(sentencia)
             
-            # Procesar actualización
+            # 3. Ejecutar actualización
             self.visit(ctx.actualizacion())
     
-    # Visitar una condición
-    def visitCondicion(self, ctx: MiGramaticaParser.CondicionContext):
-        var_value = self.variables.get(ctx.ID().getText(), 0)
-        condition_value = int(ctx.INT().getText())
-        op = ctx.op.text
+    def _evaluate_condition(self, cond_ctx):
+        # Método auxiliar para evaluar condiciones
+        left = self.variables.get(cond_ctx.ID().getText(), 0)
+        right = int(cond_ctx.INT().getText())
+        op = cond_ctx.op.text
         
         if op == '<':
-            return var_value < condition_value
+            return left < right
         elif op == '>':
-            return var_value > condition_value
+            return left > right
         elif op == '==':
-            return var_value == condition_value
+            return left == right
         elif op == '!=':
-            return var_value != condition_value
+            return left != right
         else:
             raise ValueError(f"Operador desconocido: {op}")
     
-    # Visitar operaciones de suma/resta
-    def visitAddSub(self, ctx: MiGramaticaParser.AddSubContext):
-        left = self.visit(ctx.expresion(0))
-        right = self.visit(ctx.expresion(1))
-        op = ctx.op.text
-        
-        if op == '+':
-            return left + right
-        else:  # '-'
-            return left - right
+    def visitInicializacion(self, ctx: MiGramaticaParser.InicializacionContext):
+        var_name = ctx.ID().getText()
+        value = self.visit(ctx.expresion())
+        self.variables[var_name] = value
+        return value
     
-    # Visitar operaciones de multiplicación/división
+    def visitActualizacion(self, ctx: MiGramaticaParser.ActualizacionContext):
+        return self.visitAssign(ctx)  # Reutilizamos la lógica de asignación
+    
     def visitMulDiv(self, ctx: MiGramaticaParser.MulDivContext):
         left = self.visit(ctx.expresion(0))
         right = self.visit(ctx.expresion(1))
@@ -73,11 +67,19 @@ class EvalVisitor(MiGramaticaVisitor):
         else:  # '/'
             return left // right  # División entera
     
-    # Visitar un entero
+    def visitAddSub(self, ctx: MiGramaticaParser.AddSubContext):
+        left = self.visit(ctx.expresion(0))
+        right = self.visit(ctx.expresion(1))
+        op = ctx.op.text
+        
+        if op == '+':
+            return left + right
+        else:  # '-'
+            return left - right
+    
     def visitInt(self, ctx: MiGramaticaParser.IntContext):
         return int(ctx.INT().getText())
     
-    # Visitar una variable
     def visitVariable(self, ctx: MiGramaticaParser.VariableContext):
         var_name = ctx.ID().getText()
         return self.variables.get(var_name, 0)
