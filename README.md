@@ -22,15 +22,28 @@ Con este conjunto se cubre diseño de gramática, parsing, visita de AST, ejecuc
 
 ## Estructura del Proyecto
 
-proyecto/
-├── EmployeeDSL.g4               # Gramática ANTLR4 para el DSL
-├── employee_dsl_interpreter.py  # Intérprete del DSL
-├── generate_employee_data.py    # Generador de datos sintéticos
-├── example_scripts.txt          # 40 scripts de ejemplo
-├── main.py                      # Script principal para ejecutar consultas
-├── scripts/                     # Directorio de scripts individuales
-├── empleados.csv                # Datos generados de empleados
-└── README.md                    # Este archivo
+```text
+TrabajoFinal/
+├── EmployeeDSL.g4
+├── EmployeeDSLLexer.py
+├── EmployeeDSLLexer.tokens
+├── EmployeeDSLLexer.interp
+├── EmployeeDSLParser.py
+├── EmployeeDSLListener.py
+├── EmployeeDSLVisitor.py
+├── EmployeeDSL.tokens
+├── EmployeeDSL.interp
+├── employee_dsl_interpreter.py
+├── main_script.py
+├── example_scripts.json
+├── empleados.csv
+├── scripts/                   # DSL files extraídos (opción `extract`)
+│   ├── script_01.dsl
+│   ├── script_02.dsl
+│   └── … 
+├── __pycache__/
+└── readme.txt
+```
 
 ## Requisitos de Instalación
 
