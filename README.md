@@ -42,6 +42,7 @@ graphviz
 
 Instalar dependencias:
 pip install antlr4-python3-runtime pandas numpy
+
 pip install graphviz
 
 ## Pasos para Ejecutar el Proyecto
