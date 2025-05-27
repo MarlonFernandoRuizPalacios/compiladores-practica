@@ -1,0 +1,1 @@
+load "empleados.csv"; filter column "edad" > 30 or column "salario" between 3000 and 8000; print;
