@@ -1,4 +1,4 @@
-##DSL para Consultas de Empleados con ANTLR4 y Python
+## DSL para Consultas de Empleados con ANTLR4 y Python
 
 Este proyecto implementa un Lenguaje de Dominio Específico (DSL) para realizar consultas sobre datos de empleados almacenados en formato CSV. El proyecto utiliza ANTLR4 para el análisis léxico y sintáctico, y Python para la interpretación de las consultas.
 
@@ -20,7 +20,7 @@ Este proyecto implementa un Lenguaje de Dominio Específico (DSL) para consultas
 
 Con este conjunto se cubre diseño de gramática, parsing, visita de AST, ejecución diferida, interfaz de usuario y visualización gráfica del árbol sintáctico.  
 
-##Estructura del Proyecto
+## Estructura del Proyecto
 
 proyecto/
 ├── EmployeeDSL.g4               # Gramática ANTLR4 para el DSL
@@ -32,7 +32,7 @@ proyecto/
 ├── empleados.csv                # Datos generados de empleados
 └── README.md                    # Este archivo
 
-##Requisitos de Instalación
+## Requisitos de Instalación
 
 Python 3.7 o superior
 ANTLR4 runtime para Python
@@ -44,21 +44,21 @@ Instalar dependencias:
 pip install antlr4-python3-runtime pandas numpy
 pip install graphviz
 
-##Pasos para Ejecutar el Proyecto
+## Pasos para Ejecutar el Proyecto
 
-#1. Generar datos de prueba
+# 1. Generar datos de prueba
 
 python generate_employee_data.py
 
 Esto creará un archivo empleados.csv con 300 registros de empleados.
 
-#2. Extraer los scripts de ejemplo
+# 2. Extraer los scripts de ejemplo
 
 python main.py extract
 
 Esto extraerá los 40 scripts de ejemplo del archivo example_scripts.txt y los guardará como archivos individuales en el directorio scripts/.
 
-#3. Ejecutar scripts
+# 3. Ejecutar scripts
 Ejecutar todos los scripts de ejemplo:
 python main.py run-all
 Ejecutar un script específico (por ejemplo, el script 5):
@@ -67,7 +67,7 @@ Ejecutar en modo interactivo:
 python main.py interactive
 En el modo interactivo, puedes escribir comandos DSL línea por línea y ver los resultados inmediatamente después de un comando print;.
 
-##Sintaxis del DLS
+## Sintaxis del DLS
 
 Comandos básicos:
 load: Carga un archivo CSV
@@ -91,18 +91,18 @@ print: Ejecuta todas las operaciones acumuladas y muestra los resultados
 
 print;
 
-#Operadores soportados:
+# Operadores soportados:
 Comparación: >, <, >=, <=, ==, !=
 Rango: between
 Lógicos: and, or
 
-##Parse Tree
+## Parse Tree
 
 Para visualizar el Parse Tree de un script específico se puede utlizar el comando:
 python3 main_script.py menu
 selecionar la tercera opcion y elegir el script el cual desea ver su arbol
 
-##Detalles de Implementación
+## Detalles de Implementación
 
 Gramática ANTLR4: Define la sintaxis del DSL, incluyendo reglas para comandos, filtros, agregaciones, y operadores.
 
